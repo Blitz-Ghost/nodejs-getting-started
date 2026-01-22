@@ -10,7 +10,7 @@ describe('getting started guide', () => {
     app = spawn('node', ['index.js'])
     app.stdout.on('data', (data) => console.log(data.toString()))
     // give the server a short time to start up
-    return new Promise(resolve => setTimeout(resolve, 500))
+    return new Promise(resolve => setTimeout(resolve, 3000))
   })
 
   afterEach(() => {
@@ -20,12 +20,12 @@ describe('getting started guide', () => {
     }
   })
 
- // it('should bind to IPv4 and respond to GET /', async () => {
- //   const response = await get(`http://127.0.0.1:${PORT}`)
-  //  expect(response.statusCode).toBe(200)
-  //  expect(response.body).toMatch("<title>Node.js Getting Started on Heroku</title>")
- //   expect(response.body).toMatch("Getting Started on Heroku with Node.js")
- // })
+  it('should bind to IPv4 and respond to GET /', async () => {
+    const response = await get(`http://127.0.0.1:${PORT}`)
+    expect(response.statusCode).toBe(200)
+    expect(response.body).toMatch("<title>Node.js Getting Started on Heroku</title>")
+    expect(response.body).toMatch("Getting Started on Heroku with Node.js")
+  })
 
   it('should bind to IPv6 and respond to GET /', async () => {
     const response = await get(`http://[::1]:${PORT}`)
