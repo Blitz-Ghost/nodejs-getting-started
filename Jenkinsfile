@@ -6,14 +6,13 @@ pipeline {
         APP_VERSION = "1.0.${BUILD_NUMBER}"
         
         // Nazwa obrazu z wersją
-        IMAGE_NAME = "moje-app:${APP_VERSION}"
+        IMAGE_NAME = "Blapp:${APP_VERSION}"
         
         // Nazwa kontenera dla etapu Deploy
         DEPLOY_CONTAINER_NAME = "app-production-v${BUILD_NUMBER}"
         
         // Pliki wynikowe
         LOG_FILE = "build_log_${APP_VERSION}.txt"
-        ARTIFACT_FILE = "aplikacja-v${APP_VERSION}.tar"
     }
 
     stages {
@@ -63,17 +62,21 @@ pipeline {
             }
         }
 
-        stage('Publish') {
+        stage('Publish to Docker Hub') {
             steps {
                 script {
-                    echo "Publikacja Artefaktu"
-                    sh "docker save ${IMAGE_NAME} -o ${ARTIFACT_FILE}"
+                    echo "Publikacja do Docker Hub"
                     
-                    archiveArtifacts artifacts: "${ARTIFACT_FILE}", fingerprint: true
+                    withCredentials([usernamePassword(credentialsId: 'dockerhub-login', passwordVariable: 'DOCKER_PASS', usernameVariable: 'DOCKER_USER')]) {
+                        
+                        sh "echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin"                        
+                        sh "docker tag ${IMAGE_NAME} ${DOCKER_USER}/Blapp:${APP_VERSION}"                        
+                        sh "docker push ${DOCKER_USER}/Blapp:${APP_VERSION}"
+                        sh "docker logout"
+                    }
                 }
             }
         }
-    }
 
     post {
         always {
