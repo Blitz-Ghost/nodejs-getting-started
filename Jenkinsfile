@@ -6,7 +6,7 @@ pipeline {
         APP_VERSION = "1.0.${BUILD_NUMBER}"
         
         // Nazwa obrazu z wersją
-        IMAGE_NAME = "Blapp:${APP_VERSION}"
+        IMAGE_NAME = "blapp:${APP_VERSION}"
         
         // Nazwa kontenera dla etapu Deploy
         DEPLOY_CONTAINER_NAME = "app-production-v${BUILD_NUMBER}"
