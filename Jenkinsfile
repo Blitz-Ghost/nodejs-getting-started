@@ -70,8 +70,8 @@ pipeline {
                     withCredentials([usernamePassword(credentialsId: 'dockerhub-login', passwordVariable: 'DOCKER_PASS', usernameVariable: 'DOCKER_USER')]) {
                         
                         sh 'echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin'                        
-                        sh "docker tag ${IMAGE_NAME} ${DOCKER_USER}/Blapp:${APP_VERSION}"                        
-                        sh "docker push ${DOCKER_USER}/Blapp:${APP_VERSION}"
+                        sh "docker tag ${IMAGE_NAME} ${DOCKER_USER}/blapp:${APP_VERSION}"                        
+                        sh "docker push ${DOCKER_USER}/blapp:${APP_VERSION}"
                         sh "docker logout"
                     }
                 }
