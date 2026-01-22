@@ -58,7 +58,7 @@ pipeline {
                     echo "Weryfikacja działania aplikacji"
                     sleep 5
                     
-                    sh "curl -f -v http://localhost:3000 >> ${LOG_FILE} 2>&1"
+                    sh "curl -f -v http://docker:3000 >> ${LOG_FILE} 2>&1"
                 }
             }
         }
